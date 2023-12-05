@@ -30,5 +30,7 @@ class ListPlaylistMusicsAPIView(generics.ListAPIView):
     lookup_url_kwarg = 'pk'
 
     def get_queryset(self):
-        playlist = get_object_or_404(Playlist, id=self.kwargs[self.lookup_url_kwarg])
-        return playlist.musics.all()
+        if self.lookup_url_kwarg in self.kwargs:
+            playlist = get_object_or_404(Playlist, id=self.kwargs[self.lookup_url_kwarg])
+            return playlist.musics.all()
+        return Music.objects.none()
